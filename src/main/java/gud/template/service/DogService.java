@@ -9,6 +9,10 @@ import java.util.List;
 public interface DogService {
     void createDog(DogRequestDTO request);
 
+    DogResponseDTO getDogById(Long id);
+
+    List<DogResponseDTO> getAllDogs();
+
     List<DogResponseDTO> getAllUnregisteredDogs();
 
 }

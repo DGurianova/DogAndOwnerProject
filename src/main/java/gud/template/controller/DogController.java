@@ -18,16 +18,25 @@ public class DogController {
     @Autowired
     private DogService dogService;
 
-
-    @GetMapping("/unregistered")
-    public List<DogResponseDTO> getAllUnregisteredDogs() {
-        return dogService.getAllUnregisteredDogs();
-    }
-
     @PostMapping
     public void createDog(@RequestBody DogRequestDTO request) {
         dogService.createDog(request);
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public DogResponseDTO getDogById(@PathVariable("id") Long id) {
+        return dogService.getDogById(id);
+    }
+
+    @GetMapping
+    public List<DogResponseDTO> getAllDogs() {
+        return dogService.getAllDogs();
+    }
+
+    @GetMapping("/unregistered")
+    public List<DogResponseDTO> getAllUnregisteredDogs() {
+        return dogService.getAllUnregisteredDogs();
+    }
 
 }

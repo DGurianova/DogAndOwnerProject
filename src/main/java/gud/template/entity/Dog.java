@@ -15,7 +15,7 @@ import javax.persistence.*;
 @ToString
 public class Dog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dog_id")
     private Long id;
 

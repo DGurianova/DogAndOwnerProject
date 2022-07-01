@@ -9,9 +9,9 @@ import java.util.List;
 public interface OwnerService {
     void createOwner(OwnerRequestDTO request);
 
-    List<OwnerResponseDTO> getAllOwners();
-
     OwnerResponseDTO getOwnerById(Long id);
+
+    List<OwnerResponseDTO> getAllOwners();
 
     DogToggleResponseDTO toggleDog(Long ownerId, Long dogId);
 }

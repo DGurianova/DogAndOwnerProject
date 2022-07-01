@@ -33,7 +33,22 @@ public class DogServiceImplementation implements DogService {
                 .build();
 
         dogRepository.save(dog);
+    }
 
+    @Override
+    public DogResponseDTO getDogById(Long id) {
+        return dogRepository
+                .findById(id)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    public List<DogResponseDTO> getAllDogs() {
+        return dogRepository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override

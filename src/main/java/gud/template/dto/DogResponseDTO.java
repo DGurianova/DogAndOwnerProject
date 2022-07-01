@@ -14,5 +14,6 @@ public class DogResponseDTO {
     private String breed;
     private String dateOfBirth;
     private Owner owner;
+    private String registrationDate;
 
 }

@@ -1,6 +1,6 @@
 package gud.template.controller;
 
-import gud.template.exception.TemplateException;
+import gud.template.exception.DogOrOwnerNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,7 +22,7 @@ public class DogAndOwnerErrorController {
  */
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(TemplateException.class)
+    @ExceptionHandler(DogOrOwnerNotFoundException.class)
     public String handleTemplateError(Exception e) {
         log.error("Template error and it should be replaced! \n {}", e.getMessage());
         return "Template error and it should be replaced!" + e.getMessage();
