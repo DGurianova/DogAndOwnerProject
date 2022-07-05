@@ -7,6 +7,7 @@ import gud.template.entity.Dog;
 import gud.template.entity.Owner;
 import gud.template.repository.DogRepository;
 import gud.template.service.DogService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ import static org.reflections.util.ConfigurationBuilder.build;
 public class DogServiceImplementation implements DogService {
 
     @Autowired
+    @Setter
     private DogRepository dogRepository;
 
     @Override
-    public void createDog(DogRequestDTO request) {
+    public Dog createDog(DogRequestDTO request) {
         Dog dog = Dog.builder()
                 .nickname(request.getNickname())
                 .breed(request.getBreed())
@@ -32,7 +34,8 @@ public class DogServiceImplementation implements DogService {
                 .registrationDate(null)
                 .build();
 
-        dogRepository.save(dog);
+        return dogRepository.save(dog);
+
     }
 
     @Override
