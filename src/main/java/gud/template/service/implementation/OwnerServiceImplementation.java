@@ -10,6 +10,7 @@ import gud.template.exception.DogOrOwnerNotFoundException;
 import gud.template.repository.DogRepository;
 import gud.template.repository.OwnerRepository;
 import gud.template.service.OwnerService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,19 +24,21 @@ import java.util.stream.Collectors;
 @Service
 public class OwnerServiceImplementation implements OwnerService {
     @Autowired
+    @Setter
     private OwnerRepository ownerRepository;
 
     @Autowired
+    @Setter
     private DogRepository dogRepository;
 
     @Override
-    public void createOwner(OwnerRequestDTO request) {
+    public Owner createOwner(OwnerRequestDTO request) {
         Owner owner = Owner.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .dateOfBirth(request.getDateOfBirth())
                 .build();
-        ownerRepository.save(owner);
+        return ownerRepository.save(owner);
     }
 
     @Override
