@@ -1,10 +1,12 @@
 package gud.template.service.implementation;
 
 import gud.template.dto.DogResponseDTO;
+import gud.template.dto.DogToggleResponseDTO;
 import gud.template.dto.OwnerRequestDTO;
 import gud.template.dto.OwnerResponseDTO;
 import gud.template.entity.Dog;
 import gud.template.entity.Owner;
+import gud.template.exception.DogOrOwnerNotFoundException;
 import gud.template.repository.DogRepository;
 import gud.template.repository.OwnerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -149,5 +152,40 @@ class OwnerServiceImplementationTest {
 
     @Test
     void toggleDog() {
+        Owner ownerManuallyCreated = Owner.builder()
+                .id(1L)
+                .firstName("Nik")
+                .lastName("Nikitin")
+                .dateOfBirth("02.03.1982")
+                .build();
+
+        Dog dog = Dog.builder()
+                .id(2L)
+                .nickname("Alpha")
+                .breed("Breed1")
+                .dateOfBirth("01.01.01")
+                .owner(ownerManuallyCreated)
+                .registrationDate(LocalDate.now().toString())
+                .build();
+        List<Dog> dogList = new ArrayList<>();
+        dogList.add(dog);
+
+
+        service.setOwnerRepository(mockOwnerRepository);
+        service.setDogRepository(mockDogRepository);
+
+        when(mockOwnerRepository.findById(anyLong())).thenReturn(Optional.of(ownerManuallyCreated));
+        when(mockDogRepository.findById(anyLong())).thenReturn(Optional.of(dog));
+        when(mockDogRepository.findAllByOwnerId(anyLong())).thenReturn(dogList);
+
+        DogToggleResponseDTO expectedDogToggleResponseDTO = DogToggleResponseDTO.builder()
+                .owner(ownerManuallyCreated)
+                .dogs(dogList)
+                .build();
+        DogToggleResponseDTO actualDogToggleResponseDTO = service.toggleDog(1L, 2L);
+
+        assertEquals(expectedDogToggleResponseDTO.getOwner(), actualDogToggleResponseDTO.getOwner());
+        assertEquals(expectedDogToggleResponseDTO.getDogs(), actualDogToggleResponseDTO.getDogs());
+
     }
 }
