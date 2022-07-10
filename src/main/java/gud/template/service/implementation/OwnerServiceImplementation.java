@@ -100,6 +100,5 @@ public class OwnerServiceImplementation implements OwnerService {
                 .owner(newOwner.get())
                 .dogs(dogsList)
                 .build();
-
     }
 }
